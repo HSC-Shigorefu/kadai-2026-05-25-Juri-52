@@ -1,0 +1,34 @@
+{
+  "tests": [
+    {
+      "name": "task01",
+      "setup": "pip install -r requirements.txt",
+      "run": "pytest -q tests/test_tasks.py::test_task01_clean_large_employee_csv",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 30,
+      "points": 100
+    },
+    {
+      "name": "task02",
+      "setup": "pip install -r requirements.txt",
+      "run": "pytest -q tests/test_tasks.py::test_task02_clean_sqlite_database_and_export",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 30,
+      "points": 100
+    },
+    {
+      "name": "task03",
+      "setup": "pip install -r requirements.txt",
+      "run": "pytest -q tests/test_tasks.py::test_task03_clean_3_csv_files_and_combine",
+      "input": "",
+      "output": "",
+      "comparison": "included",
+      "timeout": 30,
+      "points": 100
+    }
+  ]
+}

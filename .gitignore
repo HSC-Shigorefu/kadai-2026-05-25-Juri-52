@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+task01/employees_clean.csv
+task02/company_payroll_clean.csv
+task03/daily_reports_clean.csv
