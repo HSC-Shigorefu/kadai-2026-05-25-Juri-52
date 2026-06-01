@@ -28,31 +28,58 @@ while True:
         print(len(list(REPORT_DIR.glob("*.csv"))))
     elif choice == "2":
         csv_files = list(REPORT_DIR.glob("*.csv"))
-
-        df = pd.concat(
-        [pd.read_csv(csv_file) for csv_file in csv_files],
-        ignore_index=True
-        )
-
+        df = pd.concat([pd.read_csv(csv_file) for csv_file in csv_files],ignore_index=True)
         print(df)
+        df.to_csv("dr.csv",index=False)
         pass
     elif choice == "3":
         # TODO: 列名、社員ID、部署、プロジェクト、ステータス、メモを整理する
+        df = df.rename(columns={"employee_id":"社員ID","department":"部署","project_code":"プロジェクト"})
+        df["社員ID"] = df["社員ID"].astype(str).str.strip().str.upper()
+        df["社員ID"] = df["社員ID"].str.replace("EMP-","E",regex=False)
+        df = df.drop_duplicates(subset=df[["社員ID","作業日"]],keep="last")
+        df["部署"] = df["部署"].astype(str).str.strip().str.upper()
+        df["部署"] = df["部署"].str.replace({
+            "SALES":"営業","ＤＥＶ":"DEV","DEV":"開発","SUPPORT":"サポート","HR":"人事","ACCOUNTING":"経理"
+        },regex=False)
+        df["プロジェクト"] = df["プロジェクト"].astype(str).str.strip().str.upper()
+        df["プロジェクト"] = df["プロジェクト"].str.replace("INTERNAL","社内",regex=False)
+        df["ステータス"] = df["ステータス"].astype(str).str.strip().str.upper()
+        df["ステータス"] = df["ステータス"].str.replace({
+            "DONE":"完了","PENDING":"確認中","REWORK":"差し戻し"
+        },regex=False)
         pass
     elif choice == "4":
         # TODO: 作業時間とコストを計算や集計に使える形にする
+        df["作業時間"] = df["作業時間"].astype(str).replace("時間","",regex=False)
+        df["作業時間"] = pd.to_numeric(df["作業時間"],errors="coerce")
+        df["コスト"] = df["コスト"].astype(str).replace({
+            "¥":"",",":"","円":""
+        },regex=False)
+        df["コスト"] = pd.to_numeric(df["コスト"],errors="coerce")
         pass
     elif choice == "5":
         # TODO: 作業日を日付として扱える形にする
+        df["作業日"] = pd.to_datetime(df["作業日"],errors="coerce")
         pass
     elif choice == "6":
         # TODO: 作業時間、コスト、作業日、部署、ステータスの不自然な値を欠損値にする
+        df.loc[
+            (df["作業時間"] < 0),"作業時間"
+        ] = pd.NA
         pass
     elif choice == "7":
         # TODO: 欠損値を列ごとに適切な値で補完する
+        df["作業時間"] = df["作業時間"].fillna(round(df["作業時間"].mean(),1))
+        df["コスト"] = df["コスト"].fillna(round(df["コスト"].mean()))
+        print(df)
+        df.to_csv("dr_clean.csv",index=False)
         pass
     elif choice == "8":
         # TODO: 必要な列だけを見やすい順番で残し、daily_reports_clean.csv に保存する
+        df = df[["社員ID","作業日","部署","プロジェクト","作業時間","コスト"]]
+        print(df)
+        df.to_csv("daily_reports_clean.csv",index=False)
         pass
     elif choice == "9":
         print(df)
