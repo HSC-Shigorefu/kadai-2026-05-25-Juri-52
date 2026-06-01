@@ -27,11 +27,14 @@ while True:
     if choice == "1":
         print(len(list(REPORT_DIR.glob("*.csv"))))
     elif choice == "2":
-        csv_file = len(list(REPORT_DIR.glob("*.csv")))
-        df = pd.concat(
-            [pd.read_csv(csv_file) for csv_file in csv_files], ignore_index=True)
+        csv_files = list(REPORT_DIR.glob("*.csv"))
 
-        print(df)
+        df = pd.concat(
+        [pd.read_csv(csv_file) for csv_file in csv_files],
+        ignore_index=True
+        )
+
+    print(df)
         pass
     elif choice == "3":
         # TODO: 列名、社員ID、部署、プロジェクト、ステータス、メモを整理する
