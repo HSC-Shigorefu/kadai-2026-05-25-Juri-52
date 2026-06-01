@@ -34,7 +34,7 @@ while True:
         ignore_index=True
         )
 
-    print(df)
+        print(df)
         pass
     elif choice == "3":
         # TODO: 列名、社員ID、部署、プロジェクト、ステータス、メモを整理する
