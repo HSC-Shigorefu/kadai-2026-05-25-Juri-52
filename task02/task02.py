@@ -105,7 +105,7 @@ while True:
         pass
     elif choice == "6":
         employees_df = employees_df.rename(
-            columns={"employees_id":"社員ID","name":"氏名","department":"部署",
+            columns={"employee_id":"社員ID","name":"氏名","department":"部署",
                      "office":"勤務地","status":"ステータス","joined_at":"入社日"})
         payroll_df = payroll_df.rename(
             columns={"employee_id":"社員ID","month":"対象月","base_salary":"基本給",
